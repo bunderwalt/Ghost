@@ -10,36 +10,48 @@
 // Используем префикс TOKEN_ для ВСЕХ элементов, чтобы избежать конфликтов имен
 typedef enum {
     // Ключевые слова
-    TOKEN_LET,      // let
-    TOKEN_MUT,      // mut
-    TOKEN_FN,       // fn
-    TOKEN_IF,       // if
-    TOKEN_ELSE,     // else
-    TOKEN_RETURN,   // return
+    TOKEN_LET,              // let
+    TOKEN_MUT,              // mut
+    TOKEN_FN,               // fn
+    TOKEN_IF,               // if
+    TOKEN_ELSE,             // else
+    TOKEN_RETURN,           // return
 
     // Операторы
-    TOKEN_PLUS,     // +
-    TOKEN_MINUS,    // -
-    TOKEN_STAR,     // *
-    TOKEN_SLASH,    // /
-    TOKEN_PERCENT,  // %
-    TOKEN_EQUAL,    // =
+    TOKEN_PLUS,             // +
+    TOKEN_MINUS,            // -
+    TOKEN_STAR,             // *
+    TOKEN_SLASH,            // /
+    TOKEN_PERCENT,          // %
+    TOKEN_EQUAL,            // =
     
     // Сравнение
-    TOKEN_EQ_EQ,         // ==
-    TOKEN_BANG_EQ,       // !=
-    TOKEN_BANG,          // !
-    TOKEN_GREATER,       // >
-    TOKEN_GREATER_EQUAL, // >=
-    TOKEN_LESS,          // <
-    TOKEN_LESS_EQUAL,    // <=
+    TOKEN_EQ_EQ,            // ==
+    TOKEN_BANG_EQ,          // !=
+    TOKEN_BANG,             // !
+    TOKEN_GREATER,          // >
+    TOKEN_GREATER_EQUAL,    // >=
+    TOKEN_LESS,             // <
+    TOKEN_LESS_EQUAL,       // <=
+
+    // Типы данных
+    TOKEN_I8, TOKEN_I16, TOKEN_I32,
+    TOKEN_F8, TOKEN_F16, TOKEN_F32,
+    
+    TOKEN_BOOL,             // bool
+    TOKEN_STR,              // string
+    
 
     // Другое
-    TOKEN_IDENTIFIER,
-    TOKEN_NUMBER,
-    TOKEN_SEMICOLON, // ;
-    TOKEN_ERROR,     // Для лексических ошибок
-    TOKEN_EOF        // Конец файла
+    TOKEN_IDENTIFIER,       // переменная
+    TOKEN_NUMBER,           // число
+    TOKEN_SEMICOLON,        // ;
+    TOKEN_ERROR,            // Для лексических ошибок
+    TOKEN_EOF,              // Конец файла
+    TOKEN_COLON,            // :
+    TOKEN_AMPERSAND,        // &
+    TOKEN_STRING_LITERAL,   // "текст"
+
 } TokenType;
 
 // 2. Структура Токена
