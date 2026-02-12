@@ -35,7 +35,7 @@ typedef enum {
 
     // Типы данных
     TOKEN_I8, TOKEN_I16, TOKEN_I32,
-    TOKEN_F8, TOKEN_F16, TOKEN_F32,
+             TOKEN_F16, TOKEN_F32,
     
     TOKEN_BOOL,             // bool
     TOKEN_STR,              // string

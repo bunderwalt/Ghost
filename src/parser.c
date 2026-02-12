@@ -115,6 +115,14 @@ static void statement() {
 }
 
 static void varDeclaration() {
+    bool isMutable = false;
+
+    // 1. Проверяем наличие 'mut' сразу после того, как в main() нашли 'let'
+    if (match(TOKEN_MUT)) {
+        isMutable = true;
+    }
+
+    // 2. Дальше всё как обычно: имя, двоеточие, тип
     consume(TOKEN_IDENTIFIER, "Expect variable name.");
     Token name = parser.previous;
 
@@ -123,20 +131,28 @@ static void varDeclaration() {
 
     consume(TOKEN_EQUAL, "Ghost requires explicit initialization. Use '=' followed by a value or 'Uninit'.");
 
+    bool isUninit = false;
     if (match(TOKEN_UNINITIALIZED)) {
-       
-        if (!parser.panicMode) {
-            printf("Ghost: Variable '%.*s' set to Uninit.\n", name.length, name.start);
-        }
+        isUninit = true;
     } else {
-        expression();
-     
-        if (!parser.panicMode) {
-            printf("Ghost: Variable '%.*s' initialized.\n", name.length, name.start);
+        if (check(TOKEN_SEMICOLON) || check(TOKEN_EOF)) {
+            errorAtCurrent("Variable value cannot be empty.");
+        } else {
+            expression(); 
         }
     }
 
     consume(TOKEN_SEMICOLON, "Expect ';' after variable declaration.");
+
+    // 3. Вывод с учетом мутабельности
+    if (!parser.panicMode) {
+        const char* mutStr = isMutable ? "[Mutable]" : "[Immutable]";
+        if (isUninit) {
+            printf("Ghost: %s Variable '%.*s' set to Uninit.\n", mutStr, name.length, name.start);
+        } else {
+            printf("Ghost: %s Variable '%.*s' initialized.\n", mutStr, name.length, name.start);
+        }
+    }
 }
 
 static void declaration() {

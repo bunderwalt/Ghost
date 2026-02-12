@@ -89,7 +89,6 @@ static TokenType identifierType() {
             if (length > 1) {
                 switch (ghostScanner.start[1]) {
                     case 'n': return TOKEN_FN;
-                    case '8': return (length == 2) ? TOKEN_F8 : TOKEN_IDENTIFIER;
                     case '1': return checkKeyword(2, 1, "6", TOKEN_F16);
                     case '3': return checkKeyword(2, 1, "2", TOKEN_F32);
                 }
@@ -213,7 +212,6 @@ const char* getTokenName(TokenType type) {
         case TOKEN_I8: return "I8";
         case TOKEN_I16: return "I16";
         case TOKEN_I32: return "I32";
-        case TOKEN_F8: return "F8";
         case TOKEN_F16: return "F16";
         case TOKEN_F32: return "F32";
         case TOKEN_STR: return "STR";
