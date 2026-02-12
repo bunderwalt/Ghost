@@ -12,11 +12,11 @@ char* readFile(const char* path);
 void initScanner(const char* source);
 
 // 3. Основная рабочая функция
-// Вызывается парсером для получения следующего токена
+// вызывается парсером для получения следующего токена
 Token getToken();
 
 // 4. Инструмент для отладки
-// Превращает TokenType (число) в понятную строку (например, "TOKEN_LET")
+// превращает TokenType (число) в понятную строку (например "TOKEN_LET")
 const char* getTokenName(TokenType type);
 
 #endif // GHOST_LEXER_H

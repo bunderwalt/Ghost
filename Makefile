@@ -1,23 +1,29 @@
-CC = gcc
-# Флаг -Iinclude позволяет писать #include "lexer.h" без папки
-CFLAGS = -Iinclude -Wall -Wextra 
-TARGET = bin/ghost
 
-SRCS = main.c src/lexer.c
-# Превращаем список .c файлов в список .o в папке obj
-OBJS = obj/main.o obj/lexer.o
+CC = gcc
+CFLAGS = -Iinclude -Wall -Wextra -g
+
+
+TARGET = bin/ghost
+SRCS = main.c src/lexer.c src/parser.c
+OBJS = $(SRCS:.c=.o)
+
 
 all: $(TARGET)
 
-$(TARGET): $(OBJS)
-	$(CC) $(OBJS) -o $(TARGET)
 
-# Правило для компиляции .c в .o
-obj/%.o: %.c
+$(TARGET): $(OBJS)
+	@mkdir -p bin
+	$(CC) $(CFLAGS) $(OBJS) -o $(TARGET)
+
+
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-obj/lexer.o: src/lexer.c
-	$(CC) $(CFLAGS) -c src/lexer.c -o obj/lexer.o
+
+run: $(TARGET)
+	./$(TARGET)
+
 
 clean:
-	rm -rf obj/*.o bin/ghost
+	rm -f $(OBJS) $(TARGET)
+	rm -rf bin

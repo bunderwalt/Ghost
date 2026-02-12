@@ -1,39 +1,57 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+
+#include "common.h"
 #include "lexer.h"
+#include "parser.h"
 
-int main() {
-    // 1. Загружаем исходный код из файла в память
-    char* source = readFile("test.gh");
+
+static void run(const char* source) {
     
-    // 2. "Заряжаем" сканер нашим кодом
-    initScanner(source); 
+    parse(source);
+}
 
-    printf("--- Ghost Lexer Output ---\n");
-    printf("%-10s | %-15s | %s\n", "LINE", "TYPE", "TEXT");
-    printf("-------------------------------------------\n");
 
-    // 3. Основной цикл прохода по токенам
+static void repl() {
+    char line[1024];
+    printf("Ghost Language [Version 0.0.1]\n");
+    printf("Type 'exit' to quit.\n");
+
     for (;;) {
-        // Запрашиваем следующий токен у лексера
-        Token t = getToken();
+        printf("ghost > ");
 
-        // Выводим информацию в красивом табличном виде
-        // %.*s берет длину из t.length и начало из t.start
-        printf("[%4d]     | %-15s | '%.*s'\n", 
-               t.line, 
-               getTokenName(t.type), 
-               t.length, 
-               t.start);
-
-        // Если дошли до конца файла — выходим из цикла
-        if (t.type == TOKEN_EOF) {
+        if (!fgets(line, sizeof(line), stdin)) {
+            printf("\n");
             break;
         }
+
+        if (strncmp(line, "exit", 4) == 0) break;
+
+        run(line);
+    }
+}
+
+// Режим запуска из файла
+static void runFile(const char* path) {
+    char* source = readFile(path); 
+    run(source);
+    free(source);
+}
+
+int main(int argc, const char* argv[]) {
+
+    if (argc == 1) {
+        repl();
+    } 
+
+    else if (argc == 2) {
+        runFile(argv[1]);
+    } 
+    else {
+        fprintf(stderr, "Usage: ghost [path]\n");
+        exit(64);
     }
 
-    // 4. Освобождаем память, выделенную readFile
-    free(source);
-    
     return 0;
 }

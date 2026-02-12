@@ -46,7 +46,7 @@ static bool match(char expected) {
 
 // --- 3. Создание токенов (Сначала ошибки, потом обычные) ---
 
-// Теперь errorToken стоит ВЫШЕ всех, кто его использует
+
 static Token errorToken(const char* message) {
     Token token;
     token.type = TOKEN_ERROR;
@@ -104,6 +104,7 @@ static TokenType identifierType() {
                 }
             }
             break;
+        case 'U': return checkKeyword(1, 5, "ninit", TOKEN_UNINITIALIZED);
     }
     return TOKEN_IDENTIFIER;
 }
@@ -229,6 +230,7 @@ const char* getTokenName(TokenType type) {
         case TOKEN_SEMICOLON:  return "SEMICOLON";
         case TOKEN_EOF:        return "EOF";
         case TOKEN_ERROR:      return "ERROR";
+        case TOKEN_UNINITIALIZED: return "UNINIT";
         default:               return "OTHER";
     }
 }
